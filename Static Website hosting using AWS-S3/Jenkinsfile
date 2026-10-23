@@ -1,0 +1,49 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Check Required Files') {
+            steps {
+                sh '''
+                    set -eu
+                    test -f index.html
+                    test -f courses.html
+                    test -f contact.html
+                    test -f error.html
+                    test -f style.css
+                    echo "All required website files exist."
+                '''
+            }
+        }
+
+        stage('Validate HTML') {
+            steps {
+                sh '''
+                    set -eu
+                    for file in index.html courses.html contact.html error.html
+                    do
+                        grep -qi '<html' "$file"
+                        grep -qi '</html>' "$file"
+                        echo "Validated basic HTML structure: $file"
+                    done
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Website validation passed!'
+        }
+        failure {
+            echo 'Website validation failed. Check the console output.'
+        }
+    }
+}
