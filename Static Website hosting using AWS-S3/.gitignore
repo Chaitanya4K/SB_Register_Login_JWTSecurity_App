@@ -1,0 +1,28 @@
+
+# IDE files
+.vscode/
+.idea/
+.settings/
+.project
+.classpath
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Build and dependency folders
+target/
+node_modules/
